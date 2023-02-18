@@ -22,7 +22,7 @@ exports.populateDb = function () {
     let sqldb = new sqlite3.Database('./db/til.db')
 
     // User
-    var username = 'Ingo'
+    var username = 'til'
     var password = pwgenerator.generate({ length: 10, numbers: true });
     var hashed_password = helpers.hashPassword(password);
     sqldb.run(`INSERT INTO users(username, password, displayname) VALUES (?,?,?)`, [username, hashed_password, username]);
