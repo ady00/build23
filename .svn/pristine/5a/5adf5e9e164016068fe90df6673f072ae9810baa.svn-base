@@ -1,0 +1,5 @@
+<footer class="footer mt-5">
+    <div class="container d-flex justify-content-center">
+      <span class="text-muted">TodayILearned (2020 - 2021)</span>
+    </div>
+</footer>
