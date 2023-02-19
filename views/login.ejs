@@ -1,19 +1,74 @@
 <!doctype html>
 <html lang="en">
 
+<html>
+
 <head>
 	<%- include ('partials/head.ejs') %>
 	<title>TodayILearned</title>
 	<link href="/static/css/login.css" rel="stylesheet">
+	
+	<script src="https://apis.google.com/js/api.js"></script>
+	<script>
+		gapi.load('auth2', function() {
+		  gapi.auth2.init({
+			client_id: 'client_id',
+		  }).then(function() {
+		});
+		});
+	</script>
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body class="text-center">
+	
 
 	<main class="form-signin">
 		<form method="post" action="/login">
 			<img class="mb-4" src="/static/images/icons/app-icon-144.png" alt="" width="144" height="144">
 			<h1 class="h3 mb-3 font-weight-normal">Welcome!</h1>
 			<br>
+
+			<!-- Add the Google sign-in button -->
+			<script src="https://accounts.google.com/gsi/client" async defer></script>
+			<div id="g_id_onload"
+			data-client_id="client_id"
+			data-login_uri="http://localhost:3000/"
+			data-auto_prompt="false">
+			</div>
+			<div class="g_id_signin"
+			data-type="standard"
+			data-size="large"
+			data-theme="outline"
+			data-text="sign_in_with"
+			data-shape="rectangular"
+			data-logo_alignment="center">
+			</div>
+
+			<!-- Define the onSignIn function -->
+			<script src="https://apis.google.com/js/platform.js" async defer></script>
+			<script type = "module">
+				// import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-app.js';
+  				// import { getAuth, signInWithPopup, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/9.0.2/firebase-auth.js';
+				function onSignIn(googleUser) {
+					var id_token = googleUser.getAuthResponse().id_token;
+					verifyIdToken(id_token)
+					.then((result) => {
+						// Currently working on the authentication
+
+						/* const credential = GoogleAuthProvider.credentialFromResult(result);
+						const token = credential.accessToken;
+
+						// The signed-in user info.
+						const user = result.user; */
+						window.location.href = 'http://localhost:3000/auth/google/callback/';
+						console.log(`User verified: ${result.sub}`);
+					})
+					.catch((error) => {
+						console.error(`Failed to verify user: ${error}`);
+					});
+				}
+			</script>
 
 			<div class="form-floating">
 				<input autocomplete="username" type="text" name="username" id="username" class="form-control" placeholder="til">
